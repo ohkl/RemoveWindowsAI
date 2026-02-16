@@ -1,6 +1,6 @@
-# Remove Windows Ai
-## Why?
-The current 25H2 build of Windows 11 and future builds will include increasingly more AI features and components. This script aims to remove ALL of these features to improve user experience, privacy and security. 
+# 删除 Windows AI
+## 为什么？
+当前的 Windows 11 25H2 版本和未来的版本将包含越来越多的 AI 功能和组件。本脚本旨在删除所有这些功能，以改善用户体验、隐私和安全性。
 
 <img width="150" alt="AI-Explorer-icon" src="https://github.com/zoicware/RemoveWindowsAI/assets/118035521/33efb033-c935-416c-977d-777bb69a3737">
 
@@ -9,70 +9,70 @@ The current 25H2 build of Windows 11 and future builds will include increasingly
 
 
 
-### Script Features
- - **Disable Registry Keys** 
-   - Disable Copilot
-   - Disable Recall
-   - Disable Input Insights and typing data harvesting 
-   - Copilot in Edge
-   - Image Creator in Paint
-   - Remove AI Fabric Service
-   - Disable AI Actions
-   - Disable AI in Paint
-   - Disable Voice Access
-   - Disable AI Voice Effects
-   - Disable AI in Settings Search
- - **Prevent Reinstall of AI Packages**
-   - Installs custom Windows Update package to prevent reinstall of AI packages in the CBS (Component-Based Servicing) store 
- - **Disable Copilot policies** 
-   - Disables policies related to Copilot and Recall in IntegratedServicesRegionPolicySet.json
- - **Remove AI Appx Packages**
-   - Removes all AI appx packages including `Nonremovable` packages and WindowsWorkload 
- - **Remove Recall Optional Feature**
- - **Remove AI Packages in CBS**
-   - This will remove hidden and locked AI packages in the CBS (Component-Based Servicing) store 
- - **Remove AI Files**
-   - This will do a full system cleanup removing all remaining AI installers, registry keys, and package files 
- - **Hide AI Components**
-   - This will hide the settings page `AI Components` 
- - **Disable Rewrite AI Feature in Notepad**
- - **Remove Recall Tasks**
-   - Forcibly removes all instances of Recall's scheduled tasks
+### 脚本功能
+ - **禁用注册表键** 
+   - 禁用 Copilot
+   - 禁用 Recall（回忆）
+   - 禁用输入洞察和打字数据收集 
+   - Edge 中的 Copilot
+   - 画图中的图像创建器
+   - 删除 AI Fabric 服务
+   - 禁用 AI 操作
+   - 禁用画图中的 AI
+   - 禁用语音访问
+   - 禁用 AI 语音效果
+   - 禁用设置搜索中的 AI
+ - **防止重新安装 AI 包**
+   - 安装自定义 Windows 更新包，以防止在 CBS（基于组件的服务）存储中重新安装 AI 包 
+ - **禁用 Copilot 策略** 
+   - 在 IntegratedServicesRegionPolicySet.json 中禁用与 Copilot 和 Recall 相关的策略
+ - **删除 AI Appx 包**
+   - 删除所有 AI appx 包，包括 `不可删除` 包和 WindowsWorkload 
+ - **删除 Recall 可选功能**
+ - **删除 CBS 中的 AI 包**
+   - 这将删除 CBS（基于组件的服务）存储中隐藏和锁定的 AI 包 
+ - **删除 AI 文件**
+   - 这将执行完整的系统清理，删除所有剩余的 AI 安装程序、注册表键和包文件 
+ - **隐藏 AI 组件**
+   - 这将隐藏设置页面 `AI 组件` 
+ - **禁用记事本中的 AI 重写功能**
+ - **删除 Recall 任务**
+   - 强制删除所有 Recall 的计划任务实例
 
- - #### Install Classic Apps
-   - These options will allow you to replace the modern AI infested apps with their classic version
-   - **Options:** Replace Notepad, Paint, Snipping Tool, Photo Viewer, and Install Photos Legacy 
+ - #### 安装经典应用
+   - 这些选项允许您将现代的充满 AI 的应用程序替换为其经典版本
+   - **选项：** 替换记事本、画图、截图工具、照片查看器，并安装传统照片应用
  
-#### Manual AI Disabling
-- Unfortunately, not all features and settings can be disabled via a script. This guide will show additional AI features to disable.
-> **[Disable Other AI Features](https://github.com/zoicware/RemoveWindowsAI/blob/main/OtherAIFeatures.md)**
+#### 手动禁用 AI
+- 不幸的是，并非所有功能和设置都可以通过脚本禁用。本指南将展示需要手动禁用的其他 AI 功能。
+> **[禁用其他 AI 功能](https://github.com/zoicware/RemoveWindowsAI/blob/main/OtherAIFeatures.md)**
   
-### Read the Script Docs Here
-  > **[Documentation](https://github.com/zoicware/RemoveWindowsAI/blob/main/Documentation.md)**
+### 在此阅读脚本文档
+  > **[文档](https://github.com/zoicware/RemoveWindowsAI/blob/main/Documentation.md)**
 
   > [!WARNING]
-  > Some third party anti-viruses will falsely detect the script as malicious, obviously this is a false positive and the anti-virus will need to be temporarily disabled or set the script as an exclusion.
+  > 某些第三方杀毒软件会错误地将脚本检测为恶意软件，这显然是误报，需要临时禁用杀毒软件或将脚本设置为排除项。
   >
-  > Due to the nature of making advanced changes to the system many debloat tools/scripts will be falsely detected as malware... if you are unsure about the script I always recommend testing any software in a virtual machine first
+  > 由于对系统进行高级更改的性质，许多精简工具/脚本会被误报为恶意软件...如果您对脚本不确定，我总是建议先在虚拟机中测试任何软件
 
 ---
 
 
- ### How to Use
+ ### 如何使用
  
- #### Run From Powershell Console as Administrator
+ #### 以管理员身份从 Powershell 控制台运行
  ---
 
  > [!WARNING]
- > Running the script with PowerShell 7 is no longer supported and it WILL cause issues, to avoid this ensure you are running Windows PowerShell (5.1)
+ > 不再支持使用 PowerShell 7 运行脚本，这将导致问题，为避免这种情况，请确保您运行的是 Windows PowerShell (5.1)
  >
 
- ### Launch with UI
+ ### 使用 UI 启动
  ```PowerShell
  & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/zoicware/RemoveWindowsAI/main/RemoveWindowsAi.ps1")))
  ```
- ### Compact Command:
- ##### Link shortened using open source link shortener: https://kutt.it/
+ ### 简洁命令：
+ ##### 使用开源链接缩短器缩短的链接：https://kutt.it/
  ```PowerShell
  & ([scriptblock]::Create((irm 'https://kutt.it/RWAI')))
  ```
@@ -80,28 +80,28 @@ The current 25H2 build of Windows 11 and future builds will include increasingly
 
 
  <details>  
-  <summary>Click to View UI</summary>
+  <summary>点击查看 UI</summary>
   <img width="586" height="693" alt="Capture2" src="https://github.com/user-attachments/assets/fa105ba5-c1dc-447c-ae2e-7ee373291042" />
   <img width="586" height="693" alt="Capture2" src="https://github.com/user-attachments/assets/8a446a23-7c47-468e-856b-1e783205c511" />
-</details>  
+</details>
 
 &nbsp;
 
-### Command Line Options
+### 命令行选项
 
-**Run in Non-Interactive Mode with All Options**
+**使用所有选项以非交互模式运行**
  ```PowerShell
  & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/zoicware/RemoveWindowsAI/main/RemoveWindowsAi.ps1"))) -nonInteractive -AllOptions
  ```
 
 --- 
 
-**Run with Specific Options Example**
+**使用特定选项运行示例**
  ```PowerShell
  & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/zoicware/RemoveWindowsAI/main/RemoveWindowsAi.ps1"))) -nonInteractive -Options DisableRegKeys,RemoveAppxPackages,DisableCopilotPolicies 
  ```
 
-**All Possible Options:**
+**所有可能的选项：**
 ```
 DisableRegKeys          
 PreventAIPackageReinstall     
@@ -115,12 +115,12 @@ DisableRewrite
 RemoveRecallTasks
 ```
 
-**Run Install Classic Apps**
+**运行安装经典应用**
  ```PowerShell
  & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/zoicware/RemoveWindowsAI/main/RemoveWindowsAi.ps1"))) -nonInteractive -InstallClassicApps photoviewer,mspaint,snippingtool,notepad  
  ```
 
-**All Possible Options:**
+**所有可能的选项：**
 ```
 photoviewer          
 mspaint     
@@ -166,20 +166,20 @@ https://github.com/zoicware/RemoveWindowsAI/commits/main/
 > If you find an AI feature or registry key that is not currently removed or disabled by the script submit an issue with as much information as possible and I will add it to the script.
 
 
-### Donation 
+### 捐赠 
 
-If you would like to support my work consider donating :)
+如果您想支持我的工作，请考虑捐赠 :)
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/zoicware)
 
 
-### Join The Discord
+### 加入 Discord
 
 [![Discord](https://discordapp.com/api/guilds/1173717737017716777/widget.png?style=banner1)](https://discord.gg/VsC7XS5vgA)
 
 
-### YT Guide
-#### [How to Remove ALL Windows AI Features](https://youtu.be/j5_eEBWGHFw)
+### YouTube 指南
+#### [如何删除所有 Windows AI 功能](https://youtu.be/j5_eEBWGHFw)
 
 
 
