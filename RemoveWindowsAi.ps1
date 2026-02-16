@@ -21,7 +21,7 @@ param(
 
 if ($nonInteractive) {
     if (!($AllOptions) -and (!$Options -or $Options.Count -eq 0) -and !($InstallClassicApps)) {
-        throw 'Non-Interactive mode was supplied without any options... Please use -Options or -AllOptions when using Non-Interactive Mode'
+        throw '提供了非交互模式，但没有任何选项...使用非交互模式时，请使用 -Options 或 -AllOptions'
         exit
     }
 }
@@ -37,15 +37,15 @@ else {
 }
 
 if ($psversion -ge 7) {
-    Write-Host 'ERROR: This script requires Windows PowerShell 5.1 (powershell.exe).' -ForegroundColor Red
-    Write-Host "You are currently running PowerShell version $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor)." -ForegroundColor Red
-    Write-Host 'PowerShell 7+ (pwsh.exe) is not supported. Please run the script using the classic Windows PowerShell 5.1.' -ForegroundColor Red
+    Write-Host '错误：此脚本需要 Windows PowerShell 5.1 (powershell.exe)。' -ForegroundColor Red
+    Write-Host "您当前运行的是 PowerShell 版本 $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor)。" -ForegroundColor Red
+    Write-Host '不支持 PowerShell 7+ (pwsh.exe)。请使用经典的 Windows PowerShell 5.1 运行此脚本。' -ForegroundColor Red
     if (-not $nonInteractive) {
         try {
             Add-Type -AssemblyName System.Windows.Forms
             [System.Windows.Forms.MessageBox]::Show(
-                "This script must be run in Windows PowerShell 5.1.`n`nCurrent version: $($PSVersionTable.PSVersion)`n`nPlease use powershell.exe instead of pwsh.exe.",
-                'PowerShell Version Error',
+                "此脚本必须在 Windows PowerShell 5.1 中运行。`n`n当前版本：$($PSVersionTable.PSVersion)`n`n请使用 powershell.exe 而不是 pwsh.exe。",
+                'PowerShell 版本错误',
                 [System.Windows.Forms.MessageBoxButtons]::OK,
                 [System.Windows.Forms.MessageBoxIcon]::Error
             ) | Out-Null
@@ -269,10 +269,10 @@ function Write-Status {
         [switch]$warningOutput
     )
     if ($errorOutput) {
-        Write-Host "[ ! ERROR ] $msg" -ForegroundColor Red
+        Write-Host "[ ! 错误 ] $msg" -ForegroundColor Red
     }
     elseif ($warningOutput) {
-        Write-Host "[ * WARNING ] $msg" -ForegroundColor Yellow
+        Write-Host "[ * 警告 ] $msg" -ForegroundColor Yellow
     }
     else {
         Write-Host "[ + ] $msg" -ForegroundColor Cyan
@@ -284,7 +284,7 @@ function Write-Status {
 #setup script
 #=====================================================================================
 
-Write-Host '~ ~ ~ Remove Windows AI by @zoicware ~ ~ ~' -ForegroundColor DarkCyan
+Write-Host '~ ~ ~ 删除 Windows AI 作者：@zoicware ~ ~ ~' -ForegroundColor DarkCyan
 
 if ($EnableLogging) {
     $date = (Get-Date).ToString('MM-dd-yyyy-HH:mm') -replace ':'
@@ -1189,7 +1189,7 @@ function Disable-Copilot-Policies {
     #disable copilot policies in region policy json
     $JSONPath = "$env:windir\System32\IntegratedServicesRegionPolicySet.json"
     if (Test-Path $JSONPath) {
-        Write-Host "$(@('Disabling','Enabling')[$revert]) CoPilot Policies in " -NoNewline -ForegroundColor Cyan
+        Write-Host "$(@('禁用','启用')[$revert]) CoPilot 策略在 " -NoNewline -ForegroundColor Cyan
         Write-Host "[$JSONPath]" -ForegroundColor Yellow
 
         #takeownership
@@ -1379,10 +1379,10 @@ function Download-AppxPackage {
       
         # If file already exists, ask to replace it
         if (Test-Path $downloadFile) {
-            Write-Host "`"${filename}`" already exists at `"${downloadFile}`"."
+            Write-Host "`"${filename}`" 已存在于 `"${downloadFile}`"。"
             $confirmation = ''
             while (!(($confirmation -eq 'Y') -Or ($confirmation -eq 'N'))) {
-                $confirmation = Read-Host "`nWould you like to re-download and overwrite the file at `"${downloadFile}`" (Y/N)?"
+                $confirmation = Read-Host "`n您想重新下载并覆盖 `"${downloadFile}`" 的文件吗？(Y/N)"
                 $confirmation = $confirmation.ToUpper()
             }
             if ($confirmation -eq 'Y') {
@@ -1404,7 +1404,7 @@ function Download-AppxPackage {
             }
             catch {
                 $ProgressPreference = $PreviousProgressPreference # return ProgressPreference back to normal
-                $errorMsg = 'An error occurred: ' + $_
+                $errorMsg = '发生错误：' + $_
                 Write-Host $errorMsg
                 $errored = $true
                 break $false
@@ -1415,8 +1415,8 @@ function Download-AppxPackage {
         }
     }
       
-    if ($errored) { Write-Host 'Completed with some errors.' }
-    if (-Not $allFilesDownloaded) { Write-Host 'Warning: Not all packages could be downloaded.' }
+    if ($errored) { Write-Host '完成时出现一些错误。' }
+    if (-Not $allFilesDownloaded) { Write-Host '警告：并非所有包都可以下载。' }
     return $DownloadedFiles
 }
 
@@ -2927,20 +2927,20 @@ else {
     #===============================================================================
 
     $functionDescriptions = @{
-        'Disable-Registry-Keys'          = 'Disables Copilot and Recall through registry modifications, including Windows Search integration and Edge Copilot features. Also disables AI image creator in Paint and various AI-related privacy settings.'
-        'Prevent-AI-Package-Reinstall'   = 'Installs a custom Windows Update Package to prevent Windows Update and DISM from reinstalling AI packages.'
-        'Disable-Copilot-Policies'       = 'Disables Copilot policies in the Windows integrated services region policy JSON file by setting their default state to disabled.'
-        'Remove-AI-Appx-Packages'        = 'Removes AI-related AppX packages including Copilot, AIX, CoreAI, and various WindowsWorkload AI components using advanced removal techniques.'
-        'Remove-Recall-Optional-Feature' = 'Removes the Recall optional Windows feature completely from the system, including payload removal.'
-        'Remove-AI-CBS-Packages'         = 'Removes additional hidden AI packages from Component Based Servicing (CBS) by unhiding them and forcing removal.'
-        'Remove-AI-Files'                = 'Removes AI-related files from SystemApps, WindowsApps, and other system directories. Also removes machine learning DLLs and Copilot installers.'
-        'Hide-AI-Components'             = 'Hides AI components in Windows Settings by modifying the SettingsPageVisibility policy to prevent user access to AI settings.'
-        'Disable-Notepad-Rewrite'        = 'Disables the AI Rewrite feature in Windows Notepad through registry modifications and group policy settings.'
-        'Remove-Recall-Tasks'            = 'Removes Recall-related scheduled tasks from the Windows Task Scheduler to prevent AI data collection processes from running.'
+        'Disable-Registry-Keys'          = '通过注册表修改禁用 Copilot 和 Recall，包括 Windows 搜索集成和 Edge Copilot 功能。还禁用画图中的 AI 图像创建器和各种与 AI 相关的隐私设置。'
+        'Prevent-AI-Package-Reinstall'   = '安装自定义 Windows 更新包，以防止 Windows 更新和 DISM 重新安装 AI 包。'
+        'Disable-Copilot-Policies'       = '通过将 Windows 集成服务区域策略 JSON 文件中的 Copilot 策略默认状态设置为禁用来禁用它们。'
+        'Remove-AI-Appx-Packages'        = '使用高级删除技术删除与 AI 相关的 AppX 包，包括 Copilot、AIX、CoreAI 和各种 WindowsWorkload AI 组件。'
+        'Remove-Recall-Optional-Feature' = '完全从系统中删除 Recall 可选 Windows 功能，包括有效负载删除。'
+        'Remove-AI-CBS-Packages'         = '通过取消隐藏并强制删除从基于组件的服务 (CBS) 中删除其他隐藏的 AI 包。'
+        'Remove-AI-Files'                = '从 SystemApps、WindowsApps 和其他系统目录中删除与 AI 相关的文件。还删除机器学习 DLL 和 Copilot 安装程序。'
+        'Hide-AI-Components'             = '通过修改 SettingsPageVisibility 策略隐藏 Windows 设置中的 AI 组件，以防止用户访问 AI 设置。'
+        'Disable-Notepad-Rewrite'        = '通过注册表修改和组策略设置禁用 Windows 记事本中的 AI 重写功能。'
+        'Remove-Recall-Tasks'            = '从 Windows 任务计划程序中删除与 Recall 相关的计划任务，以防止 AI 数据收集进程运行。'
     }
 
     $window = New-Object System.Windows.Window
-    $window.Title = 'Remove Windows AI - by @zoicware'
+    $window.Title = '删除 Windows AI - 作者：@zoicware'
     $window.Width = 600
     $window.Height = 700
     $window.WindowStartupLocation = 'CenterScreen'
@@ -2970,7 +2970,7 @@ else {
 
    
     $title = New-Object System.Windows.Controls.TextBlock
-    $title.Text = 'Remove Windows AI'
+    $title.Text = '删除 Windows AI'
     $title.FontSize = 18
     $title.FontWeight = 'Bold'
     $title.Foreground = [System.Windows.Media.Brushes]::Cyan
@@ -3266,7 +3266,7 @@ else {
     $stackPanel.Children.Add($divider) | Out-Null
 
     $classicAppsHeader = New-Object System.Windows.Controls.TextBlock
-    $classicAppsHeader.Text = 'Install Classic Windows Apps'
+    $classicAppsHeader.Text = '安装经典 Windows 应用'
     $classicAppsHeader.FontSize = 16
     $classicAppsHeader.FontWeight = 'Bold'
     $classicAppsHeader.Foreground = [System.Windows.Media.Brushes]::Cyan
@@ -3282,11 +3282,11 @@ else {
     )
 
     $classicAppsDescriptions = @{
-        'Install-Classic-Photoviewer'  = 'Installs the classic Windows Photo Viewer from Windows 7/8, allowing you to view images with the traditional viewer instead of the modern Photos app.'
-        'Install-Classic-Mspaint'      = 'Installs the classic Microsoft Paint application from older Windows versions.'
-        'Install-Classic-SnippingTool' = 'Installs the classic Snipping Tool, replacing the modern Snip & Sketch app.'
-        'Install-Classic-Notepad'      = 'Installs the classic Notepad from Windows 10, replacing the modern uwp version.'
-        'Install-Photos-Legacy'        = 'Installs the legacy Windows Photos app from the Microsoft Store.'
+        'Install-Classic-Photoviewer'  = '安装来自 Windows 7/8 的经典 Windows 照片查看器，允许您使用传统查看器而不是现代照片应用查看图像。'
+        'Install-Classic-Mspaint'      = '从旧版 Windows 安装经典的 Microsoft 画图应用程序。'
+        'Install-Classic-SnippingTool' = '安装经典的截图工具，替换现代的截图和草图应用。'
+        'Install-Classic-Notepad'      = '从 Windows 10 安装经典记事本，替换现代 uwp 版本。'
+        'Install-Photos-Legacy'        = '从 Microsoft Store 安装传统的 Windows 照片应用。'
     }
 
     $functionDescriptions += $classicAppsDescriptions
@@ -3374,7 +3374,7 @@ else {
     [System.Windows.Controls.Grid]::SetRow($togglePanel1, 0)
         
     $toggleLabel1 = New-Object System.Windows.Controls.TextBlock
-    $toggleLabel1.Text = 'Revert Mode:'
+    $toggleLabel1.Text = '还原模式：'
     $toggleLabel1.Foreground = [System.Windows.Media.Brushes]::White
     $toggleLabel1.VerticalAlignment = [System.Windows.VerticalAlignment]::Center
     $toggleLabel1.Margin = New-Object System.Windows.Thickness(0, 0, 10, 0)
@@ -3411,8 +3411,8 @@ else {
 '@
     $revertInfoButton.Template = [System.Windows.Markup.XamlReader]::Parse($revertInfoTemplate)
     $revertInfoButton.Add_Click({
-            $description = 'Revert Mode will undo changes made by this tool, restoring AI features and settings to their original state. Selected options above will be reverted/enabled when this mode is selected.'
-            [System.Windows.MessageBox]::Show($description, 'Revert Mode', [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
+            $description = '还原模式将撤消此工具所做的更改，将 AI 功能和设置恢复到原始状态。选择此模式后，上面选择的选项将被还原/启用。'
+            [System.Windows.MessageBox]::Show($description, '还原模式', [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
         })
 
     $togglePanel1.Children.Add($revertInfoButton) | Out-Null
@@ -3425,7 +3425,7 @@ else {
     [System.Windows.Controls.Grid]::SetRow($togglePanel2, 1)
         
     $toggleLabel2 = New-Object System.Windows.Controls.TextBlock
-    $toggleLabel2.Text = 'Backup Mode:'
+    $toggleLabel2.Text = '备份模式：'
     $toggleLabel2.Foreground = [System.Windows.Media.Brushes]::White
     $toggleLabel2.VerticalAlignment = [System.Windows.VerticalAlignment]::Center
     $toggleLabel2.Margin = New-Object System.Windows.Thickness(0, 0, 10, 0)
@@ -3462,8 +3462,8 @@ else {
 '@
     $backupInfoButton.Template = [System.Windows.Markup.XamlReader]::Parse($backupInfoTemplate)
     $backupInfoButton.Add_Click({
-            $description = 'Backup Mode keeps necessary files in your User directory allowing revert mode to work properly, use this option while removing AI if you would like to fully revert the removal process.'
-            [System.Windows.MessageBox]::Show($description, 'Backup Mode', [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
+            $description = '备份模式在您的用户目录中保留必要的文件，使还原模式能够正常工作，如果您想完全还原删除过程，请在删除 AI 时使用此选项。'
+            [System.Windows.MessageBox]::Show($description, '备份模式', [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
         })
 
     $togglePanel2.Children.Add($backupInfoButton) | Out-Null
@@ -3538,7 +3538,7 @@ else {
             return $image
         }
         catch {
-            Write-Host "Error loading image: $($_.Exception.Message)"
+            Write-Host "加载图像时出错：$($_.Exception.Message)"
             # Fallback text if image fails to load
             $textBlock = New-Object System.Windows.Controls.TextBlock
             $textBlock.Text = '?'
@@ -3614,7 +3614,7 @@ else {
     [System.Windows.Controls.Grid]::SetColumn($actionPanel, 1)
 
     $cancelButton = New-Object System.Windows.Controls.Button
-    $cancelButton.Content = 'Cancel'
+    $cancelButton.Content = '取消'
     $cancelButton.Width = 80
     $cancelButton.Height = 35
     $cancelButton.Background = [System.Windows.Media.Brushes]::DarkRed
@@ -3640,7 +3640,7 @@ else {
         })
 
     $applyButton = New-Object System.Windows.Controls.Button
-    $applyButton.Content = 'Apply'
+    $applyButton.Content = '应用'
     $applyButton.Width = 80
     $applyButton.Height = 35
     $applyButton.Background = [System.Windows.Media.Brushes]::DarkGreen
@@ -3693,7 +3693,7 @@ else {
             $progressWindow.Content = $progressGrid
     
             $progressText = New-Object System.Windows.Controls.TextBlock
-            $progressText.Text = 'Initializing...'
+            $progressText.Text = '正在初始化...'
             $progressText.FontSize = 14
             $progressText.Foreground = [System.Windows.Media.Brushes]::Cyan
             $progressText.HorizontalAlignment = 'Center'
@@ -3712,7 +3712,7 @@ else {
     
             if ($selectedFunctions.Count -eq 0) {
                 $progressWindow.Close()
-                [System.Windows.MessageBox]::Show('No options selected.', 'Nothing to Process', [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
+                [System.Windows.MessageBox]::Show('未选择任何选项。', '无需处理', [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
                 return
             }
     
@@ -3721,7 +3721,7 @@ else {
                     Create-RestorePoint
                 }
                 foreach ($func in $selectedFunctions) {
-                    $progressText.Text = "Executing: $($func.Replace('-', ' '))"
+                    $progressText.Text = "正在执行：$($func.Replace('-', ' '))"
                     $progressWindow.UpdateLayout()
                     [System.Windows.Forms.Application]::DoEvents()
 
@@ -3746,11 +3746,11 @@ else {
                     Start-Sleep -Milliseconds 500
                 }
         
-                $progressText.Text = 'Completed successfully!'
+                $progressText.Text = '已成功完成！'
                 Start-Sleep -Seconds 2
                 $progressWindow.Close()
         
-                $result = [System.Windows.MessageBox]::Show("AI removal process completed successfully!`n`nWould you like to restart your computer now to ensure all changes take effect?", 'Process Complete', [System.Windows.MessageBoxButton]::YesNo, [System.Windows.MessageBoxImage]::Question)
+                $result = [System.Windows.MessageBox]::Show("AI 删除过程已成功完成！`n`n您想现在重启计算机以确保所有更改生效吗？", '处理完成', [System.Windows.MessageBoxButton]::YesNo, [System.Windows.MessageBoxImage]::Question)
         
                 if ($result -eq [System.Windows.MessageBoxResult]::Yes) {
                     #cleanup code
@@ -3796,7 +3796,7 @@ else {
             }
             catch {
                 $progressWindow.Close()
-                [System.Windows.MessageBox]::Show("An error occurred: $($_.Exception.Message)", 'Error', [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Error)
+                [System.Windows.MessageBox]::Show("发生错误：$($_.Exception.Message)", '错误', [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Error)
             }
         })
 
@@ -3849,7 +3849,7 @@ if ($ogExecutionPolicy) {
 }
 
 if (!$nonInteractive) {
-    Write-Host 'Done! Press Any Key to Exit...' -ForegroundColor Green
+    Write-Host '完成！按任意键退出...' -ForegroundColor Green
     $Host.UI.RawUI.ReadKey() *>$null
 }
 
